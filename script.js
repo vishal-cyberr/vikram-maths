@@ -1,53 +1,29 @@
 let currentUser = null;
 let score = 0;
 
-// Load database from localStorage
-let users = JSON.parse(localStorage.getItem("quizUsers")) || [];
-
-function updateTable() {
-  let table = document.getElementById("userTable");
-  // Clear table except header
-  table.innerHTML = `
-    <tr>
-      <th>ID</th>
-      <th>Roll</th>
-      <th>Class</th>
-      <th>Score</th>
-    </tr>`;
-  users.forEach(u => {
-    let row = `<tr>
-      <td>${u.id}</td>
-      <td>${u.roll}</td>
-      <td>${u.className}</td>
-      <td>${u.score}</td>
-    </tr>`;
-    table.innerHTML += row;
-  });
-}
-
-updateTable();
-
-function startQuiz() {
-  let id = document.getElementById("userId").value.trim();
-  let roll = document.getElementById("roll").value.trim();
-  let className = document.getElementById("class").value.trim();
+function startGame() {
+  const id = document.getElementById("userId").value.trim();
+  const roll = document.getElementById("rollNo").value.trim();
+  const className = document.getElementById("className").value.trim();
 
   if (!id || !roll || !className) {
-    alert("Please fill all fields!");
+    alert("⚠️ Please fill all details!");
     return;
   }
 
   currentUser = { id, roll, className, score: 0 };
-  score = 0;
 
-  document.getElementById("userForm").style.display = "none";
-  document.getElementById("quizBox").style.display = "block";
+  document.querySelector(".user-form").classList.add("hidden");
+  document.getElementById("quizContainer").classList.remove("hidden");
+
+  loadUsers();
 }
 
 function checkAnswer() {
   let answer = document.getElementById("answer").value.toLowerCase().trim();
   let image = document.getElementById("quizImage");
   let message = document.getElementById("message");
+  let scoreBoard = document.getElementById("scoreBoard");
 
   if (answer === "lion") {
     image.classList.remove("blurred");
@@ -55,15 +31,41 @@ function checkAnswer() {
     message.style.color = "green";
     message.innerText = "🎉 Correct! It's a Lion!";
     score += 10;
-    document.getElementById("score").innerText = score;
-
-    // Save user score
+    scoreBoard.innerText = "⭐ Score: " + score;
     currentUser.score = score;
-    users.push(currentUser);
-    localStorage.setItem("quizUsers", JSON.stringify(users));
-    updateTable();
+    saveUser();
   } else {
     message.style.color = "red";
-    message.innerText = "❌ Oops! Try again!";
+    message.innerText = "❌ Try again!";
   }
+}
+
+function saveUser() {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let existing = users.find(u => u.id === currentUser.id);
+
+  if (existing) {
+    existing.score = currentUser.score;
+  } else {
+    users.push(currentUser);
+  }
+
+  localStorage.setItem("users", JSON.stringify(users));
+  loadUsers();
+}
+
+function loadUsers() {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let tbody = document.getElementById("userTableBody");
+  tbody.innerHTML = "";
+
+  users.forEach(user => {
+    let row = `<tr>
+      <td>${user.id}</td>
+      <td>${user.roll}</td>
+      <td>${user.className}</td>
+      <td>${user.score}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
 }
