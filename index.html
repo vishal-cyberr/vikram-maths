@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Quiz Game 🎉</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🎮 Kids Quiz Challenge 🎉</h1>
+
+  <!-- User Info Form -->
+  <div class="frame" id="userForm">
+    <h2>👦 Enter Your Details</h2>
+    <input type="text" id="userId" placeholder="Enter ID"><br>
+    <input type="text" id="roll" placeholder="Enter Roll No"><br>
+    <input type="text" id="class" placeholder="Enter Class"><br>
+    <button onclick="startQuiz()">Start Quiz 🚀</button>
+  </div>
+
+  <!-- Quiz Game -->
+  <div class="frame" id="quizBox" style="display:none;">
+    <h2>Question: What animal is this? 🐾</h2>
+    <img id="quizImage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/320px-Lion_waiting_in_Namibia.jpg" 
+         class="blurred" alt="Quiz Image">
+    
+    <br>
+    <input type="text" id="answer" placeholder="Type your answer...">
+    <br>
+    <button onclick="checkAnswer()">Submit ✅</button>
+
+    <p id="message" class="message"></p>
+    <div class="score-board">⭐ Score: <span id="score">0</span></div>
+  </div>
+
+  <!-- Database -->
+  <div class="frame">
+    <h2>📋 User Database</h2>
+    <table id="userTable">
+      <tr>
+        <th>ID</th>
+        <th>Roll</th>
+        <th>Class</th>
+        <th>Score</th>
+      </tr>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
