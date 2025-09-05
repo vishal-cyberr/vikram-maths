@@ -6,7 +6,7 @@ const attempts = [];
 let currentIndex = 0;
 let score = 0;
 // Load reward images dynamically (assumes images named 1.jpg, 2.jpg ... in root folder)
-const vikramImages = Array.from({ length: 53 }, (_, i) => `${i + 1}.jpg`);
+const vikramImages = Array.from({ length: 1 }, (_, i) => `${i + 1}.jpg`);
 
 // DOM Elements
 const questionBox = document.getElementById("questionBox");
